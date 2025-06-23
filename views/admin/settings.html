@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings | Smart Healthcare</title>
+    <link rel="stylesheet" href="../../assets/css/admin_css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/css/intlTelInput.min.css" />
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/js/intlTelInput.min.js"></script>
+
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex h-screen overflow-hidden">
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+        <!-- Sidebar -->
+        <div id="sidebar" class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-gray-800">
+                <div class="flex items-center justify-center h-16 bg-gray-900">
+                    <span class="text-white font-bold text-lg">Admin Panel</span>
+                </div>
+                <div class="flex flex-col flex-grow overflow-y-auto">
+                    <nav class="flex-1 px-2 py-4 space-y-1">
+                        <a href="admin_dashboard.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                        </a>
+                        <a href="clinics.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-clinic-medical mr-3"></i> Clinics
+                        </a>
+                        <a href="it_admins.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-users-cog mr-3"></i> IT Admins
+                        </a>
+                        <a href="admins.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-user-shield mr-3"></i> Admins
+                        </a>
+                        <a href="system.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-server mr-3"></i> System
+                        </a>
+                        <a href="verification_doctors.php"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-user-check mr-3"></i> Doctors Verification
+                        </a>
+                        <a href="../auth/logout.php"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex-shrink-0 flex border-t border-gray-700 p-4">
+                    <div class="flex items-center">
+                        <div>
+                            <img class="h-8 w-8 rounded-full" id="UserAvatar"
+                                src="../../assets/images/default-profile.png" alt="Admin profile">
+
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-white" id="adminName"></p>
+                            <p class="text-xs font-medium text-gray-300">Admin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-500 focus:outline-none md:hidden">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 class="ml-4 text-lg font-semibold text-gray-700">Settings</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="notifications-button" class="text-gray-500 focus:outline-none relative">
+                            <i class="fas fa-bell"></i>
+                            <span id="notification-badge"
+                                class="hidden absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center text-gray-500 focus:outline-none">
+                            <span class="mr-2" id="currentUserName"></span>
+                            <img class="h-8 w-8 rounded-full" id="currentUserAvatar"
+                                src="../../assets/images/default-profile.png" alt="Admin profile">
+
+                        </button>
+                        <!-- User Menu Dropdown -->
+                        <div id="user-menu"
+                            class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                            <div class="py-1">
+                                <a href="../auth/logout.php"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i> Sign out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Message Container -->
+                <div id="messageContainer" class="hidden mb-4"></div>
+
+                <!-- Settings Tabs -->
+                <div class="mb-6 border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-8">
+                        <button id="profile-tab"
+                            class="settings-tab border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                            Profile Settings
+                        </button>
+                        <button id="security-tab"
+                            class="settings-tab border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                            Security
+                        </button>
+
+                    </nav>
+                </div>
+
+                <!-- Profile Settings -->
+                <div id="profile-settings" class="settings-content">
+                    <div class="bg-white shadow rounded-lg p-6 mb-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Profile Information</h3>
+                        <form id="profileForm">
+                            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                                    <input type="text" name="name" id="name" autocomplete="name"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" name="email" id="email" autocomplete="email"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone
+                                        Number</label>
+                                    <input type="hidden" name="country_code" id="country_code">
+                                    <input type="tel" name="phone" id="phone" autocomplete="tel"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="avatar" class="block text-sm font-medium text-gray-700">Profile
+                                        Photo</label>
+                                    <div class="mt-1 flex items-center">
+                                        <img id="avatarPreview" class="h-12 w-12 rounded-full"
+                                            alt="Current profile photo">
+                                        <div class="ml-4 flex">
+                                            <input type="file" id="avatar" name="avatar" accept="image/*"
+                                                class="hidden">
+                                            <label for="avatar"
+                                                class="cursor-pointer rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                                Change
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end">
+                                <button type="button"
+                                    class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                    Cancel
+                                </button>
+                                <button type="submit"
+                                    class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Security Settings -->
+                <div id="security-settings" class="settings-content hidden">
+                    <div class="bg-white shadow rounded-lg p-6 mb-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Update Password</h3>
+                        <form id="passwordForm">
+                            <div class="space-y-6">
+                                <div>
+                                    <label for="current-password"
+                                        class="block text-sm font-medium text-gray-700">Current Password</label>
+                                    <input type="password" name="current_password" id="current-password"
+                                        autocomplete="current-password"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                </div>
+                                <div>
+                                    <label for="new-password" class="block text-sm font-medium text-gray-700">New
+                                        Password</label>
+                                    <input type="password" name="new_password" id="new-password"
+                                        autocomplete="new-password"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    <p class="mt-2 text-sm text-gray-500">Must be at least 8 characters</p>
+                                </div>
+                                <div>
+                                    <label for="confirm-password"
+                                        class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                                    <input type="password" name="confirm_password" id="confirm-password"
+                                        autocomplete="new-password"
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                </div>
+                            </div>
+                            <div class="mt-6 flex justify-end">
+                                <button type="submit"
+                                    class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                    Update Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Two-Factor Authentication</h3>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700">Two-factor authentication adds an additional layer of
+                                    security to your account by requiring more than just a password to log in.</p>
+                            </div>
+                            <button type="button"
+                                class="rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                Enable
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+        </div>
+
+
+        </main>
+    </div>
+    </div>
+
+
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include DataTables -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <!-- Include custom admin JS -->
+    <script src="../../assets/js/admin/admin.js"></script>
+    <script src="../../assets/js/admin/notifications.js"></script>
+    <!-- Settings-specific JS -->
+    <script src="../../assets/js/admin/settings.js">
+
+    </script>
+
+
+    <script>
+        const input = document.querySelector("#phone");
+        const codeInput = document.querySelector("#country_code");
+
+        // Make iti accessible from other scripts
+        window.iti = window.intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: function (callback) {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js"
+        });
+
+        // Set initial country code
+        window.addEventListener("load", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+
+        input.addEventListener("countrychange", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+    </script>
+
+</body>
+
+</html>

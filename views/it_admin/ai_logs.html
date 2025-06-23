@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Logs | Smart Healthcare</title>
+    <link rel="stylesheet" href="../../assets/css/it_admin_css/it_admin_dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/it_admin_css/ai_logs.css">
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>IT Admin Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="it_admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="clinics.html"><i class="fas fa-hospital"></i> Clinics</a></li>
+                    <li><a href="doctors.html"><i class="fas fa-user-md"></i> Doctors</a></li>
+                    <li><a href="backups.html"><i class="fas fa-database"></i> Backups</a></li>
+                    <li><a href="activity_logs.html"><i class="fas fa-clipboard-list"></i> Activity Logs</a></li>
+                    <li class="active"><a href="ai_logs.html"><i class="fas fa-robot"></i> AI Logs</a></li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <header>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-info">
+                    <img src="../../assets/images/default-profile.png" alt="" class="profile-pic h-8 w-8 rounded-full">
+                    <span class="user-it username">IT Admin</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- AI Logs Section -->
+            <section class="ai-logs-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-robot"></i> AI System Logs</h2>
+                    <div class="log-actions">
+                        <button id="refresh-logs" class="btn-primary">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <div class="dropdown">
+                            <button class="btn-secondary dropdown-toggle">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <div class="dropdown-menu">
+                                <div class="filter-section">
+                                    <h6>Log Level</h6>
+                                    <label class="checkbox">
+                                        <input type="checkbox" class="log-level" value="INFO" checked> INFO
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" class="log-level" value="WARNING" checked> WARNING
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" class="log-level" value="ERROR" checked> ERROR
+                                    </label>
+                                </div>
+                                <div class="filter-section">
+                                    <h6>Time Range</h6>
+                                    <select id="time-range" class="form-control">
+                                        <option value="1">Last 24 hours</option>
+                                        <option value="7">Last 7 days</option>
+                                        <option value="30">Last 30 days</option>
+                                        <option value="0" selected>All time</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" id="search-logs" placeholder="Search logs...">
+                            <button id="search-btn" class="btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="log-table-container">
+                    <table class="log-table" id="logs-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Appointment ID</th>
+                                <th>Action</th>
+                                <th>Reason</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-container">
+                            <!-- Logs will be loaded here via JavaScript -->
+                            <tr>
+                                <td colspan="5" class="text-center">Loading logs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination" id="pagination">
+                    <!-- Pagination will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="../../assets/js/it_admin/ai_logs.js"></script>
+    <script src="../../assets/js/it_admin/profile-loader.js"></script>
+</body>
+
+</html>

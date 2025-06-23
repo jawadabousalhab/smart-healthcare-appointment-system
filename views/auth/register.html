@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Smart Healthcare Appointment System</title>
+    <link rel="stylesheet" href="../../assets/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/css/intlTelInput.min.css" />
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/js/intlTelInput.min.js"></script>
+    <style>
+        /* Force flag container position */
+        .iti__selected-flag {
+            position: relative;
+            left: 70px;
+            padding-left: 10px !important;
+        }
+
+        /* Make sure input container shows both elements */
+        .iti {
+            width: 100%;
+            overflow: visible;
+        }
+
+        /* Phone icon positioning */
+        .fa-phone {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>SmartHealth</span>
+                </div>
+                <h1>Create an Account</h1>
+                <p>Join our healthcare network today</p>
+            </div>
+
+            <form id="registerForm" action="register.php" method="POST" class="auth-form">
+                <input type="hidden" name="role" id="role" value="patient">
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-group">
+
+                        <input type="hidden" name="phone_code" id="phone_code">
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Create a password" required>
+                        <button type="button" class="toggle-password fas fa-eye" aria-label="Show password"
+                            id="show-pass">
+                        </button>
+                    </div>
+                    <div class="password-hint">
+                        <small>Must be at least 8 characters</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="confirm_password" name="confirm_password"
+                            placeholder="Confirm your password" required>
+                        <button type="button" class="toggle-password fas fa-eye" aria-label="Show password">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <div class="input-group">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" id="address" name="address" placeholder="Enter your address" required>
+                    </div>
+                </div>
+
+                <div class="form-group terms">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the <a href="../../middleware/Terms_of_Service.txt">Terms of
+                            Service</a> and <a href="../../middleware/Privacy_Policy.txt">Privacy
+                            Policy</a></label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="login.html">Log in</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div class="auth-image">
+            <img src="../../assets/images/auth-register.jpg" alt="Happy patient with doctor">
+        </div>
+    </div>
+    <script>
+        const input = document.querySelector("#phone");
+        const codeInput = document.querySelector("#phone_code");
+
+        // Make iti accessible from other scripts
+        window.iti = window.intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: function (callback) {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js"
+        });
+
+        // Set initial country code
+        window.addEventListener("load", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+
+        input.addEventListener("countrychange", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+    </script>
+
+    <script src="../../assets/js/auth/auth.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Schedule | Doctor Dashboard</title>
+
+    <link rel="stylesheet" href="../../assets/css/doctor_css/schedule.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="../../assets/css/doctor_css/doctor_dashboard.css">
+    <style>
+        #ai-modal-btn {
+            position: relative;
+            cursor: pointer;
+            color: #3b82f6;
+            font-size: 24px;
+            right: 30px;
+            transition: color 0.3s ease;
+
+        }
+
+        .ai-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>Doctor Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="doctors_dashboard_html.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                    <li><a href="patients.html"><i class="fas fa-user-friends"></i> Patients</a></li>
+                    <li><a href="medical_reports.html"><i class="fas fa-file-medical"></i> Medical Reports</a></li>
+                    <li class="active"><a href="schedule.html"><i class="fas fa-calendar-plus"></i> My Schedule</a></li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <div class="search-bar">
+                    <input type="text" id="global-search" placeholder="Search schedule...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-info">
+                    <span id="ai-modal-btn" title="Predict Availability"><i class="fas fa-robot"></i></span>
+                    <img id="profile-pic" src="../../assets/images/default-profile.png" alt="Profile"
+                        class="profile-pic">
+                    <span class="username" id="doctor-name">Loading...</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="dr_profile.html">Profile</a>
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="schedule-container">
+                <div class="schedule-header">
+                    <h1><i class="fas fa-calendar-plus"></i> My Schedule</h1>
+                    <div class="schedule-actions">
+                        <!-- Replace both buttons with one toggle -->
+                        <button id="toggle-view-btn" class="btn btn-secondary">
+                            <i class="fas fa-calendar"></i> Month View
+                        </button>
+
+                        <button id="add-availability-btn" class="btn btn-primary" data-toggle="modal"
+                            data-target="#availability-modal">
+                            <i class="fas fa-plus"></i> Add Availability
+                        </button>
+                    </div>
+                </div>
+
+
+                <div id="ai-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="ai-section">
+                            <h2>AI-Powered Insights</h2>
+                            <div class="ai-widget">
+                                <h3>Doctor Availability Prediction</h3>
+                                <label for="prediction-range">Prediction Range:</label>
+                                <select id="prediction-range" class="ai-select">
+                                    <option value="7">Next 7 Days</option>
+                                    <option value="30">Next 30 Days</option>
+                                    <option value="60">Next 60 Days</option>
+                                </select>
+                                <button id="predict-availability" class="ai-button">
+                                    <i class="fas fa-robot"></i> Predict Availability
+                                </button>
+                                <div id="availability-prediction" class="ai-response"></div>
+                                <br>
+                                <button id="accept-predictions-btn" class="ai-button">Accept Predicted Slots</button>
+
+                            </div>
+                            <div class="ai-widget">
+                                <h3>Sensitive Appointment Detection</h3>
+                                <button id="detect-sensitive" class="ai-button">
+                                    <i class="fas fa-robot"></i> Detect Sensitive Cases
+                                </button>
+                                <ul id="sensitive-appointments" class="ai-response"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-view">
+                    <div id="week-view" class="week-view" style="display: block;">
+                        <div class="schedule-controls">
+                            <div class="date-navigation">
+                                <button id="prev-week" class="btn btn-icon"><i class="fas fa-chevron-left"></i></button>
+                                <h2 id="current-week-range">Loading...</h2>
+                                <button id="next-week" class="btn btn-icon"><i
+                                        class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <button id="today-btn" class="btn btn-secondary">Today</button>
+                        </div>
+                        <div class="week-header">
+                            <div class="day-header">Sunday</div>
+                            <div class="day-header">Monday</div>
+                            <div class="day-header">Tuesday</div>
+                            <div class="day-header">Wednesday</div>
+                            <div class="day-header">Thursday</div>
+                            <div class="day-header">Friday</div>
+                            <div class="day-header">Saturday</div>
+                        </div>
+
+                        <div class="week-grid">
+                            <!-- Days will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div id="month-view" class="month-view" style="display: none;">
+                        <div class="month-nav">
+                            <button id="prev-month" class="btn btn-icon"><i class="fas fa-chevron-left"></i></button>
+                            <button id="next-month" class="btn btn-icon"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="month-header">
+                            <div class="daym-header">Sun</div>
+                            <div class="daym-header">Mon</div>
+                            <div class="daym-header">Tue</div>
+                            <div class="daym-header">Wed</div>
+                            <div class="daym-header">Thu</div>
+                            <div class="daym-header">Fri</div>
+                            <div class="daym-header">Sat</div>
+                        </div>
+
+
+                        <div id="month-grid" class="month-grid"></div>
+                    </div>
+                </div>
+
+
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading schedule...</p>
+                </div>
+            </div>
+
+            <!-- Add Availability Modal -->
+            <div class="modal" id="availability-modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <div class="modal-body">
+                        <div class="modal-header">
+                            <h2><i class="fas fa-calendar-plus"></i> Add Availability</h2>
+                        </div>
+                        <form id="availability-form">
+                            <div class="form-group">
+                                <label for="availability-date">Date</label>
+                                <input type="text" id="availability-date" class="form-control datepicker"
+                                    placeholder="Select date" required>
+                            </div>
+
+                            <div class="time-range-group">
+                                <div class="form-group">
+                                    <label for="start-time">Start Time</label>
+                                    <input type="text" id="start-time" class="form-control timepicker"
+                                        placeholder="Start time" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="end-time">End Time</label>
+                                    <input type="text" id="end-time" class="form-control timepicker"
+                                        placeholder="End time" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="repeat-option">Repeat</label>
+                                <select id="repeat-option" class="form-control">
+                                    <option value="none">Does not repeat</option>
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="weekdays">Weekdays (Mon-Fri)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="repeat-end-container" style="display: none;">
+                                <label for="repeat-end-date">Repeat until</label>
+                                <input type="text" id="repeat-end-date" class="form-control datepicker"
+                                    placeholder="Select end date">
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Availability</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Availability Modal -->
+            <div class="modal" id="edit-availability-modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <div class="modal-body">
+                        <div class="modal-header">
+                            <h2><i class="fas fa-edit"></i> Edit Availability</h2>
+                        </div>
+                        <form id="edit-availability-form">
+                            <input type="hidden" id="edit-availability-id">
+
+                            <div class="form-group">
+                                <label for="edit-availability-date">Date</label>
+                                <input type="text" id="edit-availability-date" class="form-control datepicker" required>
+                            </div>
+
+                            <div class="time-range-group">
+                                <div class="form-group">
+                                    <label for="edit-start-time">Start Time</label>
+                                    <input type="text" id="edit-start-time" class="form-control timepicker" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-end-time">End Time</label>
+                                    <input type="text" id="edit-end-time" class="form-control timepicker" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Status</label>
+                                <div class="status-toggle">
+                                    <input type="radio" id="edit-status-available" name="edit-status" value="available"
+                                        checked>
+                                    <label for="edit-status-available">Available</label>
+                                    <input type="radio" id="edit-status-unavailable" name="edit-status"
+                                        value="unavailable">
+                                    <label for="edit-status-unavailable">Unavailable</label>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" id="delete-availability-btn" class="btn btn-danger delete-btn">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="../../assets/js/doctors/doctors_dashboard.js"></script>
+    <script src="../../assets/js/doctors/schedule.js"></script>
+</body>
+
+</html>

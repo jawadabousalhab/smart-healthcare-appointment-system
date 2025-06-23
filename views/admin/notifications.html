@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | Smart Healthcare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .notification-item.unread {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .notification-dot {
+            width: 8px;
+            height: 8px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar (same as your other pages) -->
+        <div class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-gray-800">
+                <div class="flex items-center justify-center h-16 bg-gray-900">
+                    <span class="text-white font-bold text-lg">Super Admin Panel</span>
+                </div>
+                <div class="flex flex-col flex-grow overflow-y-auto">
+                    <nav class="flex-1 px-2 py-4 space-y-1">
+                        <a href="admin_dashboard.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                        </a>
+                        <a href="clinics.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-clinic-medical mr-3"></i> Clinics
+                        </a>
+                        <a href="it_admins.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-users-cog mr-3"></i> IT Admins
+                        </a>
+                        <a href="admins.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-user-shield mr-3"></i> Admins
+                        </a>
+                        <a href="system.html"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-server mr-3"></i> System
+                        </a>
+                        <a href="../auth/logout.php"
+                            class="flex items-center px-4 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex-shrink-0 flex border-t border-gray-700 p-4">
+                    <div class="flex items-center">
+                        <div>
+                            <img class="profile-picture h-8 w-8 rounded-full"
+                                src="../../assets/images/default-profile.png" alt="Admin profile">
+
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-white">
+
+                            </p>
+                            <p class="user-name text-xs font-medium text-gray-300">Super Admin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Top Navigation (same as your other pages) -->
+            <header class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
+                <div class="flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-500 focus:outline-none md:hidden">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 class="ml-4 text-lg font-semibold text-gray-700">Super Admin Dashboard</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+
+                    <div class="relative" id="user-menu-wrapper">
+                        <button id="user-menu-button" class="flex items-center text-gray-500 focus:outline-none">
+                            <span class="user-name mr-2">
+                                Admin
+                            </span>
+                            <img class="profile-picture h-8 w-8 rounded-full"
+                                src="../../assets/images/default-profile.png" alt="Admin profile">
+                        </button>
+                        <div id="user-menu-dropdown"
+                            class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                            <div class="py-1">
+                                <a href="settings.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-cog mr-2"></i> Settings
+                                </a>
+                                <a href="../auth/logout.php"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i> Sign out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Page Header -->
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-2xl font-bold text-gray-800">Notifications</h1>
+                        <div class="flex space-x-2">
+                            <button id="mark-all-read" class="px-4 py-2 text-sm text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-check-circle mr-2"></i> Mark all as read
+                            </button>
+                            <button id="refresh-notifications" class="p-2 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Controls -->
+                    <div class="bg-white rounded-lg shadow mb-6 p-4">
+                        <div class="flex flex-wrap items-center space-x-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Filter by:</label>
+                                <select id="filter-type"
+                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                    <option value="all">All Notifications</option>
+                                    <option value="unread">Unread Only</option>
+                                    <option value="system">System Alerts</option>
+                                    <option value="appointment">Appointments</option>
+                                    <option value="alert">Urgent Alerts</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Time Range:</label>
+                                <select id="filter-time"
+                                    class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
+                                    <option value="all">All Time</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month">This Month</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications List -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div id="notifications-container">
+                            <!-- Loading state -->
+                            <div class="p-8 text-center">
+                                <div
+                                    class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mb-2">
+                                </div>
+                                <p class="text-gray-600">Loading notifications...</p>
+                            </div>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="px-6 py-3 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
+                            <div class="text-sm text-gray-700">
+                                Showing <span id="page-start">1</span> to <span id="page-end">10</span> of <span
+                                    id="total-items">0</span> notifications
+                            </div>
+                            <div class="flex space-x-2">
+                                <button id="prev-page"
+                                    class="px-3 py-1 rounded border bg-white text-gray-700 hover:bg-gray-100 disabled:opacity-50">
+                                    Previous
+                                </button>
+                                <button id="next-page"
+                                    class="px-3 py-1 rounded border bg-white text-gray-700 hover:bg-gray-100 disabled:opacity-50">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Notification Detail Modal -->
+    <div id="notification-modal"
+        class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 id="modal-title" class="text-lg font-medium text-gray-900"></h3>
+                    <p id="modal-time" class="text-sm text-gray-500"></p>
+                </div>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-500">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mt-4">
+                <p id="modal-content" class="text-gray-700"></p>
+                <div id="modal-actions" class="mt-4 space-x-3">
+                    <!-- Action buttons will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include your notifications script -->
+
+    <script src="../../assets/js/admin/profile-loader.js"></script>
+
+
+    <script src="../../assets/js/admin/notifications-page.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const button = document.getElementById('user-menu-button');
+            const menu = document.getElementById('user-menu-dropdown');
+
+            button.addEventListener('click', function (e) {
+                e.stopPropagation();
+                menu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!menu.contains(e.target) && !button.contains(e.target)) {
+                    menu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

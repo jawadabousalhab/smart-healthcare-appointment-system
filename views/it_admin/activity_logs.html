@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Logs | IT Admin Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/it_admin_css/activity_logs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>IT Admin Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="it_admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="clinics.html"><i class="fas fa-hospital"></i> Clinics</a></li>
+                    <li><a href="doctors.html"><i class="fas fa-user-md"></i> Doctors</a></li>
+                    <li><a href="backups.html"><i class="fas fa-database"></i> Backups</a></li>
+                    <li class="active"><a href="activity_logs.html"><i class="fas fa-clipboard-list"></i> Activity
+                            Logs</a></li>
+                    <li><a href="ai_logs.html"><i class="fas fa-robot"></i> AI Logs</a></li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <h1>Activity Logs</h1>
+                <div class="user-info">
+                    <img src="../../assets/images/default-profile.png" alt="Profile Picture"
+                        class="profile-pic h-8 w-8 rounded-full">
+                    <span class="user-it username">IT Admin</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="logs-container">
+                <div class="logs-header">
+                    <div class="search-filter">
+                        <input type="text" id="log-search" placeholder="Search logs...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filter-options">
+                        <select id="log-type">
+                            <option value="">All Actions</option>
+                            <option value="user">User Actions</option>
+                            <option value="clinic">Clinic Actions</option>
+                            <option value="doctor">Doctor Actions</option>
+                            <option value="backup">Backup Actions</option>
+                        </select>
+                        <select id="log-user">
+                            <option value="">All Users</option>
+                            <!-- Users will be loaded here -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="logs-table-container">
+                    <table id="logs-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Action</th>
+                                <th>Description</th>
+                                <th>User</th>
+                                <th>IP Address</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="loading">Loading activity logs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/js/it_admin/activity_logs.js"></script>
+    <script src="../../assets/js/it_admin/profile-loader.js"></script>
+</body>
+
+</html>

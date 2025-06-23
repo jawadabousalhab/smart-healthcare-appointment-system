@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Clinics | IT Admin Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/it_admin_css/clinics.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/css/intlTelInput.min.css" />
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/js/intlTelInput.min.js"></script>
+    <style>
+        /* Custom styles for the modal and map, overriding/complementing Tailwind if needed */
+        .modal {
+            display: none;
+            /* Hidden by default, controlled by JS */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1000;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            /* Centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            /* Could be responsive */
+            max-width: 600px;
+            /* Max width for larger screens */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            /* Needed for absolute positioning of close button */
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Specific styles for the map modal */
+        #mapModal {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            /* IMPORTANT: DO NOT add 'display: none;' here. It's controlled by JS with the 'hidden' class. */
+        }
+
+        #mapModal .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* Spinner styles */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #ffffff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .spinner.small {
+            width: 16px;
+            height: 16px;
+            border-width: 3px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Styles for loading/no data in table */
+        .loading,
+        .no-data,
+        .error {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>IT Admin Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="it_admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li class="active"><a href="clinics.html"><i class="fas fa-hospital"></i>Clinics</a></li>
+                    <li><a href="doctors.html"><i class="fas fa-user-md"></i>Doctors</a></li>
+                    <li><a href="backups.html"><i class="fas fa-database"></i>Backups</a></li>
+                    <li><a href="activity_logs.html"><i class="fas fa-clipboard-list"></i>Activity Logs</a></li>
+                    <li><a href="ai_logs.html"><i class="fas fa-robot"></i>AI Logs</a></li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <h1>My Assigned Clinics</h1>
+                <div class="user-info">
+                    <img src="../../assets/images/default-profile.png" alt="Profile Picture"
+                        class="profile-pic h-8 w-8 rounded-full">
+                    <span class="user-it username">IT Admin</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="clinics-container">
+                <div class="clinics-header">
+                    <div class="search-filter">
+                        <input type="text" id="clinic-search" placeholder="Search my clinics...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+
+                <div class="clinics-table-container">
+                    <table id="clinics-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Clinic Name</th>
+                                <th>Location</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="loading">Loading assigned clinics...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="clinic-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 class="text-2xl font-semibold mb-6 text-gray-800">Edit Clinic Details</h2>
+            <form id="clinic-form" class="space-y-4">
+                <input type="hidden" id="clinic-id">
+
+                <div class="form-group">
+                    <label for="clinic-name" class="block text-sm font-medium text-gray-700 mb-1">Clinic Name<span
+                            class="text-red-500">*</span></label>
+                    <input type="text" id="clinic-name" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+
+                <div class="form-group">
+                    <label for="clinic-location" class="block text-sm font-medium text-gray-700 mb-1">Location<span
+                            class="text-red-500">*</span></label>
+                    <input type="text" id="clinic-location" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+
+                <div class="form-group">
+                    <label for="clinic-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="hidden" id="clinic-phone-cc" name="phone_cc" value="+1">
+                    <input type="tel" id="clinic-phone" name="phone_number" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                </div>
+
+                <div class="form-group">
+                    <label for="clinic-coordinates" class="block text-sm font-medium text-gray-700 mb-1">Map
+                        Coordinates</label>
+                    <div class="flex mt-1">
+                        <input type="text" id="clinic-coordinates" name="map_coordinates" readonly
+                            placeholder="Click 'Open Map' to set coordinates"
+                            class="block w-full rounded-l-md border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-gray-50 cursor-not-allowed">
+                        <button type="button" id="openMapBtn"
+                            class="px-4 py-2 bg-indigo-600 text-white rounded-r-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 flex items-center justify-center">
+                            <i class="fas fa-map-marked-alt mr-2"></i> Open Map
+                        </button>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500">Select a point on the map to get the exact latitude and
+                        longitude.</p>
+                </div>
+
+                <div id="mapModal"
+                    class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center">
+                    <div
+                        class="relative bg-white p-6 rounded-lg shadow-xl w-11/12 md:w-3/4 lg:w-2/3 max-h-[90vh] flex flex-col overflow-y-auto">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800">Select Clinic Location on Map</h3>
+                            <button type="button" onclick="document.getElementById('mapModal').classList.add('hidden')"
+                                class="text-gray-500 hover:text-gray-700 text-2xl leading-none">
+                                &times;
+                            </button>
+                        </div>
+
+                        <div class="map-and-controls-container relative flex-grow">
+                            <div class="map-controls absolute top-4 left-4 z-10">
+                                <input id="map-search-input" type="text" placeholder="Search for a location..."
+                                    class="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 w-64">
+                            </div>
+                            <div id="map" class="w-full h-full rounded-md border border-gray-300"></div>
+                        </div>
+
+                        <div class="mt-6 flex justify-end space-x-3 flex-shrink-0"> <button type="button"
+                                onclick="document.getElementById('mapModal').classList.add('hidden')"
+                                class="px-5 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition ease-in-out duration-150">
+                                Cancel
+                            </button>
+                            <button type="button" id="confirmLocationBtn"
+                                class="px-5 py-2 bg-indigo-600 text-white text-base font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                Confirm Location
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions mt-8 flex justify-end space-x-3">
+                    <button type="button"
+                        class="cancel-btn px-5 py-2 bg-gray-200 text-gray-800 text-base font-medium rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition ease-in-out duration-150"
+                        id="cancel-clinic">Cancel</button>
+                    <button type="submit"
+                        class="submit-btn px-5 py-2 bg-green-600 text-white text-base font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">Save
+                        Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../assets/js/it_admin/clinics.js"></script>
+    <script src="../../assets/js/it_admin/profile-loader.js"></script>
+
+    <script>
+        const input = document.querySelector("#clinic-phone");
+        const codeInput = document.querySelector("#clinic-phone-cc");
+
+        // Make iti accessible from other scripts
+        window.iti = window.intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: function (callback) {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js"
+        });
+
+        // Set initial country code
+        window.addEventListener("load", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+
+        input.addEventListener("countrychange", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+    </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSDzM4yZ_rzcixtkSAF30FbNEraeSWZy8&libraries=places&callback=initGoogleMaps&map_id=5bc374fd3e9a0259bfa55dab"
+        async defer></script>
+</body>
+
+</html>

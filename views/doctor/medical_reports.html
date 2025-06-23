@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Reports</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/doctor_css/medical_reports.css">
+    <link rel="stylesheet" href="../../assets/css/doctor_css/doctor_dashboard.css">
+    <style>
+        #ai-modal-btn {
+            position: relative;
+            cursor: pointer;
+            color: #3b82f6;
+            font-size: 24px;
+            right: 30px;
+            transition: color 0.3s ease;
+
+        }
+
+        .ai-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>Doctor Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="doctors_dashboard_html.php"><i class="fas fa-tachometer-alt"></i>
+                            Dashboard</a></li>
+                    <li><a href="appointment.html"><i class="fas fa-calendar-check"></i>
+                            Appointments</a></li>
+                    <li><a href="patients.html"><i class="fas fa-user-friends"></i> Patients</a></li>
+                    <li class="active"><a href="medical_reports.html"><i class="fas fa-file-medical"></i> Medical
+                            Reports</a></li>
+
+                    <li><a href="schedule.html"><i class="fas fa-calendar-plus"></i> My Schedule</a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <div class="search-bar">
+                    <input type="text" id="global-search" placeholder="Search patients, appointments...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-info">
+                    <span id="ai-modal-btn" title="Predict Availability"><i class="fas fa-robot"></i></span>
+                    <img id="profile-pic" src="../../assets/images/default-profile.png" alt="Profile"
+                        class="profile-pic">
+                    <span class="username" id="doctor-name">Loading...</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="#" id="profile-link">Profile</a>
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container">
+                <header>
+                    <h1><i class="fas fa-file-medical"></i> Medical Reports</h1>
+                </header>
+
+                <div class="patient-selection">
+                    <div class="form-group">
+                        <label for="patient-select"><i class="fas fa-user"></i> Select Patient:</label>
+                        <select id="patient-select" class="form-control">
+                            <option value="">-- Select a patient --</option>
+                            <!-- Patients will be loaded via JavaScript -->
+                        </select>
+                    </div>
+                    <div id="patient-info" class="patient-info" style="display: none;">
+                        <h3 id="patient-name"></h3>
+                        <p id="patient-email"></p>
+                    </div>
+                </div>
+
+                <div class="reports-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-clipboard-list"></i> Patient Reports</h2>
+                        <button id="new-report-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> New Report
+                        </button>
+                    </div>
+
+                    <div id="reports-list" class="reports-list">
+                        <p class="empty-message">Select a patient to view their medical reports.</p>
+                    </div>
+                </div>
+                <div id="ai-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="ai-section">
+                            <h2>AI-Powered Insights</h2>
+                            <div class="ai-widget">
+                                <h3>Doctor Availability Prediction</h3>
+                                <label for="prediction-range">Prediction Range:</label>
+                                <select id="prediction-range" class="ai-select">
+                                    <option value="7">Next 7 Days</option>
+                                    <option value="30">Next 30 Days</option>
+                                    <option value="60">Next 60 Days</option>
+                                </select>
+                                <button id="predict-availability" class="ai-button">
+                                    <i class="fas fa-robot"></i> Predict Availability
+                                </button>
+                                <div id="availability-prediction" class="ai-response"></div>
+                                <br>
+                                <button id="accept-predictions-btn" class="ai-button">Accept Predicted
+                                    Slots</button>
+
+                            </div>
+                            <div class="ai-widget">
+                                <h3>Sensitive Appointment Detection</h3>
+                                <button id="detect-sensitive" class="ai-button">
+                                    <i class="fas fa-robot"></i> Detect Sensitive Cases
+                                </button>
+                                <ul id="sensitive-appointments" class="ai-response"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Report Modal -->
+
+                <div id="report-modal" class="modal" style="display: none;">
+                    <div class="modal-content" style="width: 80%; max-width: 900px;">
+                        <div class="modal-header">
+                            <h3>Create New Medical Report</h3>
+                            <span class="close-btn">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <form id="report-form">
+                                <input type="hidden" id="modal-patient-id" name="patient_id">
+
+                                <!-- Replace the patient info section with this -->
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Patient Name:</label>
+                                        <input type="text" id="patient-name-display" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contact Info:</label>
+                                        <input type="text" id="patient-contact-display" class="form-control" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Doctor Name:</label>
+                                        <input type="text" id="doctor-name-display" class="form-control" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Date:</label>
+                                        <input type="text" id="report-date" class="form-control" readonly>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <label for="appointment-id">Related Appointment:</label>
+                                    <select id="appointment-id" name="appointment_id" class="form-control">
+                                        <option value="">-- Select appointment --</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="report-type">Report Type:</label>
+                                    <select id="report-type" name="report_type" class="form-control" required>
+                                        <option value="">-- Select type --</option>
+                                        <option value="diagnosis">Diagnosis</option>
+                                        <option value="prescription">Prescription</option>
+                                        <option value="lab_result">Lab Result</option>
+                                        <option value="imaging">Imaging Report</option>
+                                        <option value="progress">Progress Note</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="medical-history">Medical History:</label>
+                                    <textarea id="medical-history" name="medical_history" class="form-control" rows="3"
+                                        readonly></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="diagnosis">Diagnosis:</label>
+                                    <textarea id="diagnosis" name="diagnosis" class="form-control" rows="3"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="prescription">Prescription:</label>
+                                    <textarea id="prescription" name="prescription" class="form-control"
+                                        rows="3"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="notes">Notes:</label>
+                                    <textarea id="notes" name="notes" class="form-control" rows="3"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="report-file">Attach File (optional):</label>
+                                    <input type="file" id="report-file" name="report_file" class="form-control"
+                                        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-secondary close-btn">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save Report</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="../../assets/js/doctors/medical_reports.js"></script>
+    <script src="../../assets/js/doctors/doctors_dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+# Terms of Service (ToS)
+
+
+Welcome to the Smart Healthcare Appointment System (“we”, “our”, or “us”). By accessing or using our platform (the “Service”), you agree to be bound by these Terms of Service. If you do not agree with these terms, please do not use the Service.
+
+## 1. Eligibility
+You must be at least 18 years of age or the age of majority in your jurisdiction to use this Service. By using the platform, you represent and warrant that you meet this requirement.
+
+## 2. User Responsibilities
+- You agree to provide accurate, complete, and current information when registering or booking an appointment.
+- You are responsible for safeguarding your account credentials and for all activities under your account.
+- You agree to use the Service in compliance with all applicable laws and regulations.
+
+## 3. Appointment Scheduling
+- You may book, cancel, or reschedule appointments through the system subject to availability.
+- Cancellation policies may apply and can result in limitations on future bookings.
+
+## 4. Doctor Availability
+- AI-based predictions for doctor availability are estimates only. We do not guarantee availability or punctuality.
+
+## 5. Intellectual Property
+- All content, trademarks, logos, and software are the property of the Service or its licensors.
+- You may not copy, distribute, or create derivative works without written permission.
+
+## 6. Account Suspension and Termination
+We reserve the right to suspend or terminate your access for violations of these Terms or conduct that could harm our users or the integrity of the platform.
+
+## 7. Disclaimers
+- The platform does **not** provide medical advice. Contact a qualified health provider for medical concerns.
+- The Service is provided “as is” without warranties of any kind.
+
+## 8. Limitation of Liability
+To the maximum extent permitted by law, we shall not be liable for indirect, incidental, or consequential damages resulting from the use or inability to use the Service.
+
+## 9. Governing Law
+These Terms are governed by the laws of Lebanon. Disputes shall be resolved in the courts located in [Insert Jurisdiction].
+
+## 10. Contact
+If you have questions about these Terms, please contact us at: jawadabosalhab11@gmail.com

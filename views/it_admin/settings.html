@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Smart Healthcare</title>
+    <link rel="stylesheet" href="../../assets/css/it_admin_css/it_admin_dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/it_admin_css/settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/css/intlTelInput.min.css" />
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/js/intlTelInput.min.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>IT Admin Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="it_admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="clinics.html"><i class="fas fa-hospital"></i> Clinics</a></li>
+                    <li><a href="doctors.html"><i class="fas fa-user-md"></i> Doctors</a></li>
+                    <li><a href="backups.html"><i class="fas fa-database"></i> Backups</a></li>
+                    <li><a href="activity_logs.html"><i class="fas fa-clipboard-list"></i> Activity Logs</a></li>
+                    <li><a href="ai_logs.html"><i class="fas fa-robot"></i> AI Logs</a></li>
+                    <li class="active"><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <header>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search settings...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-info">
+                    <img src="../../assets/images/default-profile.png" alt="Profile" class="profile-pic">
+                    <span class="user-it username">
+                    </span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Settings Content -->
+            <section class="settings-section">
+                <h1><i class="fas fa-cog"></i> System Settings</h1>
+
+                <div class="settings-tabs">
+                    <button class="tab-btn active" data-tab="general">General</button>
+                    <button class="tab-btn" data-tab="notifications">Notifications</button>
+                    <button class="tab-btn" data-tab="security">Security</button>
+                    <button class="tab-btn" data-tab="backup">Backup</button>
+                </div>
+
+                <!-- General Settings Tab -->
+                <!-- General Settings Tab -->
+                <div id="general-tab" class="tab-content active">
+                    <form id="general-settings-form" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <label>Profile Picture</label>
+                            <div class="profile-picture-upload">
+                                <img id="profile-preview" src="../../assets/images/default-profile.png"
+                                    alt="Profile Picture">
+                                <input type="file" id="profile-picture" name="profile_picture" accept="image/*"
+                                    style="display: none;">
+                                <button type="button" class="btn-upload"
+                                    onclick="document.getElementById('profile-picture').click()">
+                                    <i class="fas fa-camera"></i> Change Photo
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="hidden" id="country_code" name="country_code">
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="timezone">Timezone</label>
+                            <select id="timezone" name="timezone" required>
+                                <option value="UTC">UTC</option>
+                                <option value="America/New_York">Eastern Time (ET)</option>
+                                <option value="Europe/London">London</option>
+                                <!-- More timezones can be added -->
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-save">Save Changes</button>
+                    </form>
+                </div>
+
+                <!-- Notification Settings Tab -->
+                <div id="notifications-tab" class="tab-content">
+                    <form id="notification-settings-form">
+                        <h3>Email Notifications</h3>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="email_system" checked> System Notifications
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="email_security" checked> Security Alerts
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="email_updates"> Updates & Newsletters
+                            </label>
+                        </div>
+
+                        <h3>In-App Notifications</h3>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="app_system" checked> System Messages
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="app_activity" checked> Activity Alerts
+                            </label>
+                        </div>
+                        <button type="submit" class="btn-save">Save Settings</button>
+                    </form>
+                </div>
+
+                <!-- Security Settings Tab -->
+                <div id="security-tab" class="tab-content">
+                    <form id="security-settings-form">
+                        <div class="form-group">
+                            <label for="password-change">Change Password</label>
+                            <input type="password" id="password-change" name="new_password" placeholder="New password">
+                        </div>
+                        <div class="form-group">
+                            <label for="password-confirm">Confirm Password</label>
+                            <input type="password" id="password-confirm" name="confirm_password"
+                                placeholder="Confirm new password">
+                        </div>
+                        <div class="form-group">
+                            <label for="session-timeout">Session Timeout (minutes)</label>
+                            <input type="number" id="session-timeout" name="session_timeout" min="5" max="1440"
+                                value="30">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="two_factor"> Enable Two-Factor Authentication
+                            </label>
+                        </div>
+                        <button type="submit" class="btn-save">Save Settings</button>
+                    </form>
+                </div>
+
+                <!-- Backup Settings Tab -->
+                <div id="backup-tab" class="tab-content">
+                    <form id="backup-settings-form">
+                        <div class="form-group">
+                            <label for="backup-schedule">Backup Schedule</label>
+                            <select id="backup-schedule" name="backup_schedule">
+                                <option value="daily">Daily</option>
+                                <option value="weekly" selected>Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="backup-retention">Retention Period (days)</label>
+                            <input type="number" id="backup-retention" name="backup_retention" min="1" max="365"
+                                value="30">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="backup_auto" checked> Automatic Backups
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="backup-location">Backup Location</label>
+                            <input type="text" id="backup-location" name="backup_location"
+                                placeholder="/path/to/backups">
+                        </div>
+                        <button type="submit" class="btn-save">Save Settings</button>
+                    </form>
+                </div>
+
+                <div class="status-message" id="settings-status"></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../assets/js/it_admin/settings.js"></script>
+    <script src="../../assets/js/it_admin/profile-loader.js"></script>
+    <script>
+        const input = document.querySelector("#phone");
+        const codeInput = document.querySelector("#country_code");
+
+        // Make iti accessible from other scripts
+        window.iti = window.intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: function (callback) {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js"
+        });
+
+        // Set initial country code
+        window.addEventListener("load", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+
+        input.addEventListener("countrychange", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+    </script>
+</body>
+
+</html>

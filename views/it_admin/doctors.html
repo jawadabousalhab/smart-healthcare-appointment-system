@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Doctors | IT Admin Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/it_admin_css/doctors.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/css/intlTelInput.min.css" />
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/js/intlTelInput.min.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>IT Admin Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="it_admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="clinics.html"><i class="fas fa-hospital"></i>Clinics</a></li>
+                    <li class="active"><a href="doctors.html"><i class="fas fa-user-md"></i> Doctors</a></li>
+                    <li><a href="backups.html"><i class="fas fa-database"></i>Backups</a></li>
+                    <li><a href="activity_logs.html"><i class="fas fa-clipboard-list"></i>Activity Logs</a></li>
+                    <li><a href="ai_logs.html"><i class="fas fa-robot"></i>AI Logs</a></li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <h1>Manage Doctors</h1>
+                <div class="user-info">
+                    <img src="../../assets/images/default-profile.png" alt="Profile Picture" class="profile-pic">
+                    <span class="user-it username">IT Admin</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="doctors-container">
+                <div class="doctors-header">
+                    <div class="search-filter">
+                        <input type="text" id="doctor-search" placeholder="Search doctors...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                        <select id="clinic-filter">
+                            <option value="">All Clinics</option>
+                            <!-- Clinics will be loaded here -->
+                        </select>
+                    </div>
+                    <button id="add-doctor-btn" class="primary-btn">
+                        <i class="fas fa-plus"></i> Add Doctor
+                    </button>
+                </div>
+
+                <div class="doctors-table-container">
+                    <table id="doctors-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Specialization</th>
+                                <th>Assigned Clinics</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7" class="loading">Loading doctors...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Doctor Modal -->
+    <div class="modal" id="doctor-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="modal-title">Add New Doctor</h2>
+            <form id="doctor-form">
+                <input type="hidden" id="doctor-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="doctor-name">Full Name*</label>
+                        <input type="text" id="doctor-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-email">Email*</label>
+                        <input type="email" id="doctor-email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="doctor-phone">Phone Number</label>
+                        <input type="hidden" id="country-code" name="country_code">
+                        <input type="tel" id="doctor-phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-specialization">Specialization*</label>
+                        <input type="text" id="doctor-specialization" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Assign to Clinics</label>
+                    <div id="clinics-checkboxes">
+                        <!-- Clinics will be loaded here -->
+                        <div class="loading">Loading clinics...</div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" id="cancel-doctor">Cancel</button>
+                    <button type="submit" class="submit-btn">Save Doctor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../assets/js/it_admin/doctors.js"></script>
+    <script src="../../assets/js/it_admin/profile-loader.js"></script>
+
+    <script>
+        const input = document.querySelector("#doctor-phone");
+        const codeInput = document.querySelector("#country-code");
+
+        // Make iti accessible from other scripts
+        window.iti = window.intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: function (callback) {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js"
+        });
+
+        // Set initial country code
+        window.addEventListener("load", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+
+        input.addEventListener("countrychange", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+    </script>
+</body>
+
+</html>

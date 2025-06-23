@@ -1,0 +1,9 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "mpdf/mpdf": "dev-master"
+    },
+    "config": {
+        "process-timeout": 600
+    }
+}

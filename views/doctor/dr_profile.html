@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Doctor Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/doctor_css/doctor_dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/doctor_css/dr_profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/css/intlTelInput.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/25.3.1/build/js/intlTelInput.min.js"></script>
+
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>Doctor Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="doctors_dashboard_html.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+                    <li><a href="patients.html"><i class="fas fa-user-friends"></i> Patients</a></li>
+                    <li><a href="medical_reports.html"><i class="fas fa-file-medical"></i> Medical Reports</a></li>
+
+                    <li class="active"><a href="profile_dr.html"><i class="fas fa-user"></i> My Profile</a></li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <header>
+                <div class="search-bar">
+                    <input type="text" id="global-search" placeholder="Search patients, appointments...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-info">
+                    <img id="profile-pic" src="../../assets/images/default-profile.png" alt="Profile"
+                        class="profile-pic">
+                    <span class="username" id="doctor-name">Loading...</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="profile_dr.html" id="profile-link">Profile</a>
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="profile-container">
+                <div class="profile-header">
+                    <h1><i class="fas fa-user"></i> My Profile</h1>
+                    <button id="edit-profile-btn" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+
+                <div class="profile-content">
+                    <div class="profile-sidebar">
+                        <div class="profile-photo-container">
+                            <img id="profile-photo-large" src="../../assets/images/default-profile.png"
+                                alt="Profile Photo" class="profile-photo-large">
+                            <div class="profile-status">
+                                <span class="status-indicator active"></span>
+                                <span>Active</span>
+                            </div>
+                            <button id="change-photo-btn" class="btn btn-secondary">
+                                <i class="fas fa-camera"></i> Change Photo
+                            </button>
+                            <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+                        </div>
+
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <div>
+                                    <span class="stat-value" id="total-appointments">0</span>
+                                    <span class="stat-label">Appointments</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-friends"></i>
+                                <div>
+                                    <span class="stat-value" id="total-patients">0</span>
+                                    <span class="stat-label">Patients</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-star"></i>
+                                <div>
+                                    <span class="stat-value">4.9</span>
+                                    <span class="stat-label">Rating</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-details">
+                        <div class="profile-section">
+                            <h2><i class="fas fa-id-card"></i> Personal Information</h2>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Full Name</label>
+                                    <span id="full-name">Loading...</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Email</label>
+                                    <span id="email">Loading...</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Phone Number</label>
+                                    <span id="phone">Loading...</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Specialization</label>
+                                    <span id="specialization">Loading...</span>
+                                </div>
+                                <div class="info-item full-width">
+                                    <label>Address</label>
+                                    <span id="address">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-section">
+                            <h2><i class="fas fa-lock"></i> Account Settings</h2>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Account Status</label>
+                                    <span>Verified <i class="fas fa-check-circle verified-icon"></i></span>
+                                </div>
+                                <div class="info-item full-width">
+                                    <button id="change-password-btn" class="btn btn-secondary">
+                                        <i class="fas fa-key"></i> Change Password
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Profile Modal -->
+            <div class="modal" id="edit-profile-modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <div class="modal-body">
+                        <div class="modal-header">
+                            <h2><i class="fas fa-user-edit"></i> Edit Profile</h2>
+                        </div>
+                        <form id="profile-form">
+                            <div class="form-section">
+                                <h3><i class="fas fa-id-card"></i> Personal Information</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="edit-first-name">First Name</label>
+                                        <input type="text" id="edit-first-name" name="first_name" class="form-control"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-last-name">Last Name</label>
+                                        <input type="text" id="edit-last-name" name="last_name" class="form-control"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-email">Email</label>
+                                        <input type="email" id="edit-email" name="email" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-phone">Phone Number</label>
+                                        <input type="hidden" id="country-code" name="country_code">
+                                        <input type="tel" id="edit-phone" name="phone" class="form-control" required>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="edit-address">Address</label>
+                                        <textarea id="edit-address" name="address" class="form-control"
+                                            rows="2"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit-specialization">Specialization</label>
+                                        <input type="text" id="edit-specialization" name="specialization"
+                                            class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Change Password Modal -->
+            <div class="modal" id="change-password-modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <div class="modal-body">
+                        <div class="modal-header">
+                            <h2><i class="fas fa-key"></i> Change Password</h2>
+                        </div>
+                        <form id="password-form">
+                            <div class="form-group">
+                                <label for="current-password">Current Password</label>
+                                <input type="password" id="current-password" name="current_password"
+                                    class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                <input type="password" id="new-password" name="new_password" class="form-control"
+                                    required>
+                                <small class="form-text">Must be at least 8 characters long</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password</label>
+                                <input type="password" id="confirm-password" name="confirm_password"
+                                    class="form-control" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../assets/js/doctors/doctors_dashboard.js"></script>
+    <script src="../../assets/js/doctors/dr_profile.js"></script>
+    <script>
+        const input = document.querySelector("#edit-phone");
+        const codeInput = document.querySelector("#country-code");
+
+        // Make iti accessible from other scripts
+        window.iti = window.intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: function (callback) {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js"
+        });
+
+        // Set initial country code
+        window.addEventListener("load", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+
+        input.addEventListener("countrychange", function () {
+            const countryData = iti.getSelectedCountryData();
+            codeInput.value = '+' + countryData.dialCode;
+        });
+    </script>
+</body>
+
+</html>

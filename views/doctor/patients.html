@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Patients | Doctor Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/doctor_css/doctor_dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/doctor_css/patients.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        #ai-modal-btn {
+            position: relative;
+            cursor: pointer;
+            color: #3b82f6;
+            font-size: 24px;
+            right: 30px;
+            transition: color 0.3s ease;
+
+        }
+
+        .ai-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>Doctor Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="doctors_dashboard_html.php"><i class="fas fa-tachometer-alt"></i>
+                            Dashboard</a></li>
+                    <li><a href="appointment.html"><i class="fas fa-calendar-check"></i>
+                            Appointments</a></li>
+                    <li class="active"><a href="patients.html"><i class="fas fa-user-friends"></i>
+                            Patients</a>
+                    </li>
+                    <li><a href="medical_reports.html"><i class="fas fa-file-medical"></i> Medical
+                            Reports</a></li>
+
+                    <li><a href="schedule.html"><i class="fas fa-calendar-plus"></i> My Schedule</a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <div class="modal" id="patient-modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <div class="modal-body" id="modal-body">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+            <header>
+                <div class="search-bar">
+                    <input type="text" id="global-search" placeholder="Search patients, appointments...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <!-- Patient Details Modal -->
+
+                <div class="user-info">
+                    <span id="ai-modal-btn" title="Predict Availability"><i class="fas fa-robot"></i></span>
+                    <img id="profile-pic" src="../../assets/images/default-profile.png" alt="Profile"
+                        class="profile-pic">
+                    <span class="username" id="doctor-name">Loading...</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="#" id="profile-link">Profile</a>
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div id="patients-container">
+                <div class="patients-header">
+                    <h1><i class="fas fa-user-friends"></i> My Patients</h1>
+                    <div class="search-box">
+                        <input type="text" id="patients-search" placeholder="Search patients...">
+                        <button id="search-button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+
+                <div class="patients-list">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading patients...</p>
+                    </div>
+                </div>
+
+                <div class="pagination-container">
+                    <!-- Pagination will be inserted here by JavaScript -->
+                </div>
+                <div id="ai-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="ai-section">
+                            <h2>AI-Powered Insights</h2>
+                            <div class="ai-widget">
+                                <h3>Doctor Availability Prediction</h3>
+                                <label for="prediction-range">Prediction Range:</label>
+                                <select id="prediction-range" class="ai-select">
+                                    <option value="7">Next 7 Days</option>
+                                    <option value="30">Next 30 Days</option>
+                                    <option value="60">Next 60 Days</option>
+                                </select>
+                                <button id="predict-availability" class="ai-button">
+                                    <i class="fas fa-robot"></i> Predict Availability
+                                </button>
+                                <div id="availability-prediction" class="ai-response"></div>
+                                <br>
+                                <button id="accept-predictions-btn" class="ai-button">Accept Predicted
+                                    Slots</button>
+
+                            </div>
+                            <div class="ai-widget">
+                                <h3>Sensitive Appointment Detection</h3>
+                                <button id="detect-sensitive" class="ai-button">
+                                    <i class="fas fa-robot"></i> Detect Sensitive Cases
+                                </button>
+                                <ul id="sensitive-appointments" class="ai-response"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../assets/js/doctors/doctors_dashboard.js"></script>
+    <script src="../../assets/js/doctors/patients.js"></script>
+</body>
+
+</html>

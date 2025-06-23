@@ -1,0 +1,47 @@
+# Privacy Policy
+
+
+
+We value your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, store, and protect your information when you use the Smart Healthcare Appointment System (“we”, “our”, or “us”).
+
+## 1. Information We Collect
+- **Personal Information:** Name, email, phone number, and any other registration data.
+- **Appointment Data:** Booking details, selected doctor, and scheduling preferences.
+- **Technical Data:** IP address, browser type, device info (used for analytics/security).
+- **Cookies:** For session management and preferences.
+
+## 2. How We Use Your Information
+- To manage appointments and notify you of updates.
+- To enhance the accuracy of our AI prediction systems.
+- To communicate with you via email or SMS regarding your bookings.
+- For internal analytics and service improvement.
+
+## 3. Data Protection
+We implement industry-standard security measures including:
+- Encrypted passwords and database access control.
+- HTTPS for secure transmission.
+- Session tokens and cookie-based authentication.
+
+## 4. Who Can Access Your Data
+- Doctors can view relevant appointment details (not full personal profiles).
+- Admins and IT personnel may access data for operational or security purposes.
+- No data is sold or shared with unauthorized third parties.
+
+## 5. Cookies and Tracking
+We use cookies to:
+- Maintain login sessions.
+- Remember user preferences.
+- Improve user experience.
+
+You may disable cookies in your browser settings, but some features may be limited.
+
+## 6. Third-Party Services
+We may use third-party APIs (e.g., SMS/email services, OpenAI for AI predictions). These providers may process data only as necessary to provide their services.
+
+## 7. Your Rights
+- You can request access to or correction of your personal data.
+- You may request deletion of your data, subject to legal and operational constraints.
+- To make such requests, email us at jawadabosalhab11@gmail.com.
+
+## 8. Updates to This Policy
+We may update this Privacy Policy periodically. We will notify you of any significant changes via email or platform notification.

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backup Management | IT Admin Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/it_admin_css/backups.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Smart Healthcare</h1>
+                <p>IT Admin Dashboard</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="it_admin_dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="clinics.html"><i class="fas fa-hospital"></i>Clinics</a></li>
+                    <li><a href="doctors.html"><i class="fas fa-user-md"></i> Doctors</a></li>
+                    <li class="active"><a href="backups.html"><i class="fas fa-database"></i> Backups</a></li>
+                    <li><a href="activity_logs.html"><i class="fas fa-clipboard-list"></i>Activity Logs</a></li>
+                    <li><a href="ai_logs.html"><i class="fas fa-robot"></i>AI Logs</a></li>
+                    <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <h1>Backup Management</h1>
+                <div class="user-info">
+                    <img src="../../assets/images/default-profile.png" alt="Profile Picture" class="profile-pic">
+                    <span class="user-it username">IT Admin</span>
+                    <div class="dropdown">
+                        <i class="fas fa-caret-down"></i>
+                        <div class="dropdown-content">
+                            <a href="../auth/logout.php">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="backups-container">
+                <div class="backups-header">
+                    <div class="backup-actions">
+                        <div class="search-filter">
+                            <input type="text" id="backup-search" placeholder="Search backups...">
+                            <button id="search-btn"><i class="fas fa-search"></i></button>
+                        </div>
+                        <button id="create-backup-btn" class="primary-btn">
+                            <i class="fas fa-plus"></i> Create New Backup
+                        </button>
+                        <div class="backup-options">
+                            <select id="backup-type">
+                                <option value="">All Types</option>
+                                <option value="full">Full Backup</option>
+                                <option value="clinics">Clinics Only</option>
+                                <option value="doctors">Doctors Only</option>
+                                <option value="appointments">Appointments Only</option>
+                                <option value="assignments">Assignments Only</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="backups-list-container">
+                    <table id="backups-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Backup Name</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="loading">Loading backups...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+                    <span id="page-info">Page 1 of 1</span>
+                    <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Restore Backup Modal -->
+    <div class="modal" id="restore-backup">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Restore Backup</h2>
+            <p>Are you sure you want to restore this backup? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancel-restore" class="cancel-btn">Cancel</button>
+                <button id="confirm-restore" class="submit-btn">Restore Backup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Backup Modal -->
+    <div class="modal" id="backup-modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Create New Backup</h2>
+            <form id="backup-form">
+                <div class="form-group">
+                    <label for="backup-name">Backup Name*</label>
+                    <input type="text" id="backup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="backup-description">Description</label>
+                    <textarea id="backup-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="backup-type-modal">Backup Type*</label>
+                    <select id="backup-type-modal" required>
+                        <option value="full">Full Backup (All Data)</option>
+                        <option value="clinics">Clinics Only</option>
+                        <option value="doctors">Doctors Only</option>
+                        <option value="appointments">Appointments Only</option>
+                        <option value="assignments">Clinic-Doctor Assignments</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" id="cancel-backup">Cancel</button>
+                    <button type="submit" class="submit-btn">Create Backup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../assets/js/it_admin/backups.js"></script>
+    <script src="../../assets/js/it_admin/profile-loader.js"></script>
+</body>
+
+</html>

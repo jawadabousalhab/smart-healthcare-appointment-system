@@ -46,15 +46,7 @@ cd smart-healthcare-system
   - SMTP credentials
   - OpenAI API key
 
-### 3. Setup React Frontend
 
-```bash
-cd react-frontend
-npm install
-npm run dev   # or npm run build for production
-```
-
----
 
 ## 👤 Admin Login Setup
 

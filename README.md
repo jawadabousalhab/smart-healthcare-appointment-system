@@ -13,7 +13,7 @@ A smart web-based appointment management system for healthcare providers and pat
 - Admin and IT admin panel
 - Medical report generation
 - Email notifications using PHPMailer + MailerSend
-- Responsive UI with React + Tailwind CSS
+- Responsive UI Tailwind CSS
 - Secure login system with hashed passwords
 
 ---

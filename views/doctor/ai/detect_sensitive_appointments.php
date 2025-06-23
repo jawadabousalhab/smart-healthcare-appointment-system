@@ -48,7 +48,7 @@ ORDER BY a.appointment_date, a.appointment_time;");
 
     $context .= "\nClassify these into 'routine', 'important', or 'sensitive'. Output JSON only in this format:\n";
     $context .= '[{"date": "2025-05-01", "time": "10:00", "sensitivity": "sensitive", "reason": "Severe chest pain reported."}]';
-    $apiKey = 'Eq5byJfjzJVTCDo51DBY0F1I2vCHfe1z';
+    $apiKey = '';
     // Send to LLaMA via Ollama
     $data = json_encode([
         "model" => "mistral-small",

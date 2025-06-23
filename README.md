@@ -23,8 +23,8 @@ A smart web-based appointment management system for healthcare providers and pat
 - **Frontend**: HTML, CSS, JavaScript, Tailwind CSS, Chart.js, Intl-Tel-Input
 - **Backend**: PHP
 - **Database**: MySQL
-- **AI**: OpenAI API (or custom logic)
-- **Email Service**: PHPMailer + MailerSend SMTP
+- **AI**: MistralAI API (or custom logic)
+- **Email Service**: PHPMailer 
 
 ---
 
@@ -41,10 +41,11 @@ cd smart-healthcare-system
 
 - Ensure PHP 8+ and MySQL are installed.
 - Import the provided SQL dump into **phpMyAdmin** (or MySQL CLI).
-- Set up your `.env` or config file with:
+- Set up your config file with:
   - DB credentials
   - SMTP credentials
-  - OpenAI API key
+  - MistralAI API key
+  - Google Maps API
 
 
 

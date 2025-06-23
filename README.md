@@ -12,7 +12,7 @@ A smart web-based appointment management system for healthcare providers and pat
 - Doctor availability and scheduling dashboard
 - Admin and IT admin panel
 - Medical report generation
-- Email notifications using PHPMailer + MailerSend
+- Email notifications using PHPMailer 
 - Responsive UI Tailwind CSS
 - Secure login system with hashed passwords
 

@@ -44,7 +44,7 @@ foreach ($doctorClinics as $clinic) {
 
 $range = isset($_GET['range']) ? intval($_GET['range']) : 7;
 $today = date('Y-m-d');
-$apiKey = 'Eq5byJfjzJVTCDo51DBY0F1I2vCHfe1z';
+$apiKey = '';
 
 function callMistralAPI($prompt, $apiKey)
 {

@@ -67,7 +67,7 @@ To access the **Admin Dashboard**, you must manually insert an admin user into t
 | `email`      | `admin@example.com`       |
 | `password`   | A **hashed password**     |
 | `role`       | `admin`                   |
-| `is_verief`  |  `1`           |
+| `is_verified`|  `1`           |
 
 ### 🔧 How to Generate a Hashed Password
 

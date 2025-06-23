@@ -20,7 +20,7 @@ A smart web-based appointment management system for healthcare providers and pat
 
 ## ⚙️ Technologies Used
 
-- **Frontend**: React.js, Tailwind CSS, Chart.js, Intl-Tel-Input
+- **Frontend**: HTML, CSS, JavaScript, Tailwind CSS, Chart.js, Intl-Tel-Input
 - **Backend**: PHP
 - **Database**: MySQL
 - **AI**: OpenAI API (or custom logic)

@@ -312,7 +312,7 @@ ORDER BY mr.report_date DESC
 
         case 'ai_assistant':
             $message = $_GET['message'] ?? '';
-            $apiKey = 'Eq5byJfjzJVTCDo51DBY0F1I2vCHfe1z'; // Replace with your real key
+            $apiKey = ''; // Replace with your real key
             $data = json_encode([
                 'model' => 'mistral-medium', // Or mistral-small, etc.
                 'messages' => [['role' => 'user', 'content' => $message]]

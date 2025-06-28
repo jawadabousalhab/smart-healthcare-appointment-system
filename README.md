@@ -33,7 +33,7 @@ A smart web-based appointment management system for healthcare providers and pat
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/smart-healthcare-system.git
+git clone https://github.com/jawadabousalhab/smart-healthcare-system.git
 cd smart-healthcare-system
 ```
 
